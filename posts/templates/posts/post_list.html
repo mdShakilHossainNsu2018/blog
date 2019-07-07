@@ -18,7 +18,7 @@
           {% if  obj.user.get_full_name%}
         <h3 class="text-capitalize text-lg-center ">Author: {{ obj.user.get_full_name }}</h3>
     {% endif %}
-          <p>{{ obj.content|linebreaks|truncatechars:120 }}</p>
+          <div class="post-detail-item">{{ obj.get_markdown|truncatechars_html:30 }}</div>
 
           <h1>{{ obj.id }}</h1>
           <div class="d-flex justify-content-end">

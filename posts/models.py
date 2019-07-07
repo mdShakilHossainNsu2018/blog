@@ -1,8 +1,10 @@
 from django.db import models
-import uuid
+from markdown_deux import markdown
 import os
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 # Create your models here.
+from django.utils.safestring import mark_safe
 from django.db.models.signals import post_delete, pre_save
 from django.dispatch import receiver
 from django.urls import reverse
@@ -13,6 +15,8 @@ from django.utils.text import slugify
 # def user_directory_path(instance, filename):
 #     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
 #     return '{0}/{1}'.format(instance.id, filename)
+from comments.models import Comment
+
 
 class PostManager(models.Manager):
     def active(self, *args, **kwargs):
@@ -39,11 +43,28 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def comments(self):
+        instance = self
+        qs = Comment.objects.filter_by_instance(instance)
+        return qs
+
+    @property
+    def get_content_type(self):
+        instance = self
+        content_type = ContentType.objects.get_for_model(instance.__class__)
+        return content_type
+
     def get_absolute_url(self):
         return reverse("posts:detail", kwargs={"slug": self.slug})
 
     class Meta:
         ordering = ['-timestamp', '-updated']
+
+    def get_markdown(self):
+        content = self.content
+        markdownContent = markdown(content)
+        return mark_safe(markdownContent)
 
 
 def getemptyfiles(rootdir):

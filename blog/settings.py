@@ -38,7 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'posts.apps.PostsConfig',
+    'comments',
+    'pagedown',
+    'markdown_deux',
+    'crispy_forms',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -121,15 +127,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static")
 
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "static"),
-#     # '/var/www/static/',
-# ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    # '/var/www/static/',
+]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
