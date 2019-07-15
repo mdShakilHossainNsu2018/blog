@@ -17,8 +17,14 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
+from accounts.views import (login_view, logout_view, register_view)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('posts/', include('posts.urls', namespace='posts')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+                  path('admin/', admin.site.urls),
+                  path('comments/', include('comments.urls', namespace='comments')),
+                  path('posts/', include('posts.urls', namespace='posts')),
+                  path('login/', login_view, name='login'),
+                  path('logout/', logout_view, name='logout'),
+                  path('register/', register_view, name='register'),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,
+                                                                                         document_root=settings.STATIC_ROOT)

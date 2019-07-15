@@ -48,7 +48,7 @@ def post_detail(request, slug=None):
     form = CommentForm(request.POST or None, initial=initial_date)
      #Comment.objects.filter_by_instance(instance)
 
-    if form.is_valid():
+    if form.is_valid() and request.user.is_authenticated:
         c_type = form.cleaned_data.get("content_type")
 
         content_type = ContentType.objects.get(model=c_type)
