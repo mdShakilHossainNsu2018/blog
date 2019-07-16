@@ -1,15 +1,16 @@
 from django.urls import path
-from .views import (PostListAPIView)
+from .views import (PostListAPIView, PostDetailAPIView, PostDeleteAPIView, PostUpdateAPIView
+                    , PostCreateAPIView)
 
 
 app_name = 'posts-api'
 
 urlpatterns = [
     path('', PostListAPIView.as_view(), name='list'),
-    # path('create/', post_create, name='create_posts'),
-    # path('<slug:slug>/', post_detail, name='detail'),
-    #
-    # path('<slug:slug>/edit/', post_update, name='update'),
-    # path('<slug:slug>/delete/', post_delete, name='delete'),
+    path('create/', PostCreateAPIView.as_view(), name='create'),
+    path('<slug:slug>/', PostDetailAPIView.as_view(), name='detail'),
+
+    path('<slug:slug>/edit/', PostUpdateAPIView.as_view(), name='update'),
+    path('<slug:slug>/delete/', PostDeleteAPIView.as_view(), name='delete'),
 
 ]
